@@ -1,28 +1,21 @@
 {
   "expo": {
-    "name": "react-native-test-app",
-    "slug": "react-native-test-app",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    }
+   "name": "Your App Name",
+   "icon": "./assets/icon.png",
+   "version": "1.0.0",
+   "slug": "your-app-slug",
+   "ios": {
+     "bundleIdentifier": "com.yourcompany.yourappname",
+     "buildNumber": "1.0.0",
+     "config": {
+      "googleSignIn": {
+        "reservedClientId": "com.googleusercontent.apps.281131844970-k4di2kssd0l3rak6coe5oc0lqc87qsip"
+      }
+     }
+   },
+   "android": {
+     "package": "com.yourcompany.yourappname",
+     "versionCode": 1
+   }
   }
 }
