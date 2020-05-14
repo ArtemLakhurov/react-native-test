@@ -5,7 +5,7 @@
    "version": "1.0.0",
    "slug": "your-app-slug",
    "ios": {
-     "bundleIdentifier": "com.yourcompany.yourappname",
+     "bundleIdentifier": "com.react-native-test.react-native-test",
      "buildNumber": "1.0.0",
      "config": {
       "googleSignIn": {

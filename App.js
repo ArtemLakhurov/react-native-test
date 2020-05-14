@@ -41,8 +41,8 @@ export default function App() {
         <Switch>
           <Route exact path='/login' component={SignIn} />
           <Route exact path='/loading' component={LoadingScreen} />
-          <PrivateRoute exact path='/home' component={Home}/>
-          <PrivateRoute  path='*' component={Home} />
+          <Route exact path='/home' component={Home}/>
+          <Route  path='*' component={Home} />
         </Switch>
       </NativeRouter>
     </Provider>

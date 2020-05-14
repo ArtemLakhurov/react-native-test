@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Header, Content, Form, Item, Input, Button, Text, Label, Left, Right, Title, Body, Root, View } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Button, Text, Label, Left, Right, Title, Body, View } from 'native-base';
 import firebase from 'firebase';
 import { firebaseConfig } from './firebase.config';
 import * as Google from 'expo-google-app-auth';
@@ -25,12 +25,10 @@ export default function SignIn() {
       for (var i = 0; i < providerData.length; i++) {
         if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
           // We don't need to reauth the Firebase connection.
-          console.log('TRUE')
           return true;
         }
       }
     }
-    console.log('FALSE')
     return false;
   }
   const onSignIn = (googleUser) => {
@@ -83,7 +81,26 @@ export default function SignIn() {
     } catch (e) {
       return { error: true };
     }
-
+  }
+  const FacebookLogin = async () => {
+    Facebook.initializeAsync('231825834937888');
+    const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+      permission: 'public_profile'
+    })
+    if ( type === 'success') {
+      const credential = firebase.auth.FacebookAuthProvider.credential(token);
+      firebase
+        .auth()
+        .signInWithCredential(credential)
+        .then(result => {
+          dispatch(signIn(result.user));
+          // dispatch(addTokens(result., result.stsTokenManager.refreshToken))
+          console.log(user)
+          // console.log(tokens)
+          history.push('/loading')
+        })
+        .catch(error => console.log(error));
+    }
   }
 
     return (
@@ -115,7 +132,7 @@ export default function SignIn() {
       <Icon.Button
         name="facebook"
         backgroundColor="#3b5998"
-        onPress={() => loginWithFacebook()}
+        onPress={() => FacebookLogin()}
       >
       Login with Facebook
     </Icon.Button>
