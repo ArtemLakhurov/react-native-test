@@ -14,8 +14,14 @@
      }
    },
    "android": {
-     "package": "com.yourcompany.yourappname",
-     "versionCode": 1
+     "package": "host.exp.exponent",
+     "versionCode": 1,
+     "config": {
+      "googleSignIn": {
+        "certificateHash": "B5EEEF9F7E18584BE81759CFEA49C9D08017776F",
+        "apiKey": "AIzaSyASWOig1dWjEdBPGDKLqwerporI15yFUSM"
+      }
+     }
    }
   }
 }
