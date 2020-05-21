@@ -12,6 +12,7 @@ import LoadingScreen from './Loading';
 import { Root } from 'native-base';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
+import { Basket } from './Basket';
 
 
 if (!firebase.apps.length) {
@@ -41,7 +42,8 @@ export default function App() {
         <Switch>
           <Route exact path='/login' component={SignIn} />
           <Route exact path='/loading' component={LoadingScreen} />
-          <Route exact path='/home' component={Home}/>
+          <PrivateRoute path='/home' component={Home}/>
+          <PrivateRoute path='/basket' component={Basket} />
           <Route  path='*' component={Home} />
         </Switch>
       </NativeRouter>

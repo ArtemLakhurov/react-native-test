@@ -1,12 +1,16 @@
-import { Container, Header, Left, Right, Body, Title, Thumbnail, Content, Card, CardItem, View } from "native-base";
+import { Container, Header, Left, Right, Body, Title, Thumbnail, Content, Card, CardItem, View, Toast, Root } from "native-base";
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Platform, Image, Text, Button, StyleSheet } from "react-native";
+import { Platform, Image, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import firebase from 'firebase';
 import 'firebase/firestore';
 import { addItem, clearItems } from "./Actions/ItemActions";
+import { signOut } from "./Actions/UserActions";
+import { clearTokens } from "./Actions/TokenActions";
+import { addInBasket } from './Actions/BasketActions';
+
 const config = {
 	androidClientId: '142900377950-mkftg41i2e4fe8g5dppe4ut1gk9cj0md.apps.googleusercontent.com',
 	iosClientId: '142900377950-d3nqfe8n2e2223ngt0a5dk8rnatncef3.apps.googleusercontent.com',
@@ -15,13 +19,27 @@ const config = {
 export function Home() {
 	const tokens = useSelector(state => state.tokens);
 	const user = useSelector(state => state.user);
+	const basket = useSelector(state => state.basket);
 	const history = useHistory();
 	const items = useSelector(state => state.items);
 	const dispatch = useDispatch();
 	const database = firebase.firestore();
 	const accessToken = tokens.accessToken;
-	const logOut = async () => {
+
+	const logOut = () => {
 		history.push('/login');
+		dispatch(signOut());
+		dispatch(clearTokens);
+	}
+	const buyItem = (item) => {
+		dispatch(addInBasket(item));
+		Toast.show({
+			text: `${item.name} added in basket!`,
+			buttonText: 'Okay',
+			duration: 3000,
+			type: 'success'
+		});
+		console.log(basket);
 	}
 	useEffect(() => {
 		firebase.auth().onAuthStateChanged(user => {
@@ -46,53 +64,76 @@ export function Home() {
 		.catch(error => console.log("Error getting document:", error))
 	}, [])
 	return (
-		<Container >
-			<Header>
-				<Left>
-					<Icon name='logout' size={25} color={Platform.select({
-						ios: 'black',
-						android: 'white'
-					})} onPress={() => logOut()} />
-				</Left>
-				<Body>
-					<Title>Home</Title>
-				</Body>
-				<Right>
-					<Thumbnail small source={{uri: user.photoUrl || user.photoURL}}></Thumbnail>
-				</Right>
-			</Header>
-			<Content>{
-				items.map((item, i) => (
-					<Card key={i}>
-						<CardItem>
-							<Body
-								style={{flex: 1, display: 'flex', flexDirection: 'row'}}
-							>
-								<View>
-									<Image source={{uri: item.photoURL}} resizeMode='contain' style={{height: 220, width: 200}}/>
-								</View>
-								<View
-									style={{marginTop: 30}}
+		<Root>
+			<Container >
+				<Header>
+					<Left>
+						<TouchableOpacity onPress={() => logOut()}>
+							<Icon
+								name='logout'
+								size={25}
+								color={Platform.select({
+									ios: 'black',
+									android: 'white'
+								})}
+							/>
+						</TouchableOpacity>
+					</Left>
+					<Body>
+						<Title>Home</Title>
+					</Body>
+					<Right>
+						<TouchableOpacity onPress={() => history.push('/basket')}>
+							<Icon
+								name='basket'
+								style={styles.basketIcon}
+								size={25}
+								color={Platform.select({
+									ios: 'black',
+									android: 'white'
+								})}
+							/>
+						</TouchableOpacity>
+						<Thumbnail small source={{uri: user.photoUrl || user.photoURL}}></Thumbnail>
+					</Right>
+				</Header>
+				<Content>{
+					items.map((item, i) => (
+						<Card key={i}>
+							<CardItem>
+								<Body
+									style={{flex: 1, display: 'flex', flexDirection: 'row'}}
 								>
-									<Text textAlign='center' style={styles.descriptionText}>{item.name}</Text>
-									<Text style={styles.descriptionText}>{`Chip ${item.Chip}`}</Text>
-									<Text style={styles.descriptionText}>{`Display ${item.Display}-inch`}</Text>
-									<Text style={styles.descriptionText}>{`Capacity ${item.Capacity} GB`}</Text>
-									<Text style={styles.descriptionText}>{`Price ${item.Price}$`}</Text>
-									<Button rounded title='Buy' color='#3F51B5' />
-								</View>
-							</Body>
-						</CardItem>
-						<CardItem>
-							<Body>
+									<View>
+										<Image source={{uri: item.photoURL}} resizeMode='contain' style={{height: 220, width: 200}}/>
+									</View>
+									<View
+										style={{marginTop: 30}}
+									>
+										<Text textAlign='center' style={styles.descriptionText}>{item.name}</Text>
+										<Text style={styles.descriptionText}>{`Chip ${item.Chip}`}</Text>
+										<Text style={styles.descriptionText}>{`Display ${item.Display}-inch`}</Text>
+										<Text style={styles.descriptionText}>{`Capacity ${item.Capacity} GB`}</Text>
+										<Text style={styles.descriptionText}>{`Price ${item.Price}$`}</Text>
+										<Button
+											rounded
+											title='Buy'
+											color='#3F51B5'
+											onPress={() => buyItem(item)}
+										/>
+									</View>
+								</Body>
+							</CardItem>
+							<CardItem>
+								<Body>
 
-							</Body>
-						</CardItem>
-					</Card>
-				))
-				}</Content>
-
-		</Container>
+								</Body>
+							</CardItem>
+						</Card>
+					))
+					}</Content>
+			</Container>
+		</Root>
 	)
 }
 
@@ -100,5 +141,8 @@ const styles = StyleSheet.create({
 	descriptionText: {
 		fontSize: 18,
 		padding: 4
+	},
+	basketIcon: {
+		paddingRight: 15
 	}
 })

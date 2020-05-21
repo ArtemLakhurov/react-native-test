@@ -17,3 +17,17 @@ export const clearBasket = () => {
 		type: 'CLEAR_BASKET'
 	}
 }
+
+export const counterIncrement = itemId => {
+	return {
+		type: 'COUNTER_INCREMENT',
+		itemId
+	}
+}
+
+export const counterDecriment = itemId => {
+	return {
+		type: 'COUNTER_DECRIMENT',
+		itemId
+	}
+}

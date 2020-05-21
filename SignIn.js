@@ -9,6 +9,7 @@ import { addTokens } from './Actions/TokenActions';
 import { signIn } from './Actions/UserActions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Facebook from 'expo-facebook';
+import { AsyncStorage } from 'react-native';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -38,6 +39,7 @@ export default function SignIn() {
         .then(() => {
           dispatch(addTokens(result.accessToken, result.refreshToken));
           dispatch(signIn(result.user));
+          AsyncStorage.setItem('accessToken', result.accessToken);
           history.push('/loading');
         })
         .catch(error => console.log(error));
