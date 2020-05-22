@@ -14,11 +14,23 @@ export function basket(state = [], action) {
 		case 'CLEAR_BASKET':
 			return state = [];
 		case 'COUNTER_INCREMENT':
-			++state.find(item => item.id === action.itemId).counter;
-			return state;
+			return state.map(item => {
+				if(item.id = action.itemId) {
+					return Object.assign({}, item, {
+						counter: ++item.counter,
+					})
+				}
+				return item;
+			})
 		case 'COUNTER_DECRIMENT':
-			--state.find(item => item.id === action.itemId).counter;
-			return state;
+			return state.map(item => {
+				if(item.id = action.itemId) {
+					return Object.assign({}, item, {
+						counter: --item.counter,
+					})
+				}
+				return item;
+			})
 		default:
 			return state;
 	}
