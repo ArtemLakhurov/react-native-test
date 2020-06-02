@@ -1,27 +1,28 @@
 {
   "expo": {
-   "name": "Your App Name",
-   "icon": "./assets/icon.png",
-   "version": "1.0.0",
-   "slug": "your-app-slug",
-   "ios": {
-     "bundleIdentifier": "com.react-native-test.react-native-test",
-     "buildNumber": "1.0.0",
-     "config": {
-      "googleSignIn": {
-        "reservedClientId": "com.googleusercontent.apps.281131844970-k4di2kssd0l3rak6coe5oc0lqc87qsip"
+    "name": "Your App Name",
+    "icon": "./assets/icon.png",
+    "version": "1.0.0",
+    "slug": "your-app-slug",
+    "ios": {
+      "bundleIdentifier": "com.react-native-test.react-native-test",
+      "buildNumber": "1.0.0",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.281131844970-k4di2kssd0l3rak6coe5oc0lqc87qsip"
+        }
       }
-     }
-   },
-   "android": {
-     "package": "host.exp.exponent",
-     "versionCode": 1,
-     "config": {
-      "googleSignIn": {
-        "certificateHash": "B5EEEF9F7E18584BE81759CFEA49C9D08017776F",
-        "apiKey": "AIzaSyASWOig1dWjEdBPGDKLqwerporI15yFUSM"
+    },
+    "android": {
+      "package": "host.exp.exponent",
+      "versionCode": 1,
+      "config": {
+        "googleSignIn": {
+          "certificateHash": "B5EEEF9F7E18584BE81759CFEA49C9D08017776F",
+          "apiKey": "AIzaSyASWOig1dWjEdBPGDKLqwerporI15yFUSM"
+        }
       }
-     }
-   }
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }
